@@ -20,6 +20,8 @@
 .selectBtn {
     width: 25px;
     border-left: 1px solid purple;
+    cursor: pointer;
+    font-size: 10px;
 }
 .optionContainer {
     position: absolute;
@@ -31,11 +33,17 @@
     max-height: 210px;
     overflow-y: auto;
     transition: all 200ms;
+    background-color: white;
 }
 .selectOption {
     height: 30px;
     cursor: pointer;
     margin-bottom: 5px;
+}
+.selectOption:focus,
+.selectOption:hover {
+    background-color: purple;
+    color: white;
 }
 .selectDisplay {
     width: 100%;
