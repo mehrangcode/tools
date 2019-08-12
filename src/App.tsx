@@ -6,11 +6,13 @@ import MultiSelect from './Components/MultiSelect/MultiSelect';
 const App: React.FC = () => {
   return (
     <div className="App">
-      <Select />
+      <div style={{ width: "300px", margin: "0 auto" }}>
+        <Select />
 
-      <div style={{height:"200px"}}>&nbsp;</div>
+        <div style={{ height: "200px" }}>&nbsp;</div>
 
-      <MultiSelect />
+        <MultiSelect />
+      </div>
     </div>
   );
 }

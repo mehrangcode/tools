@@ -42,7 +42,7 @@ class MultiSelect extends React.Component<IProps, IState> {
 
     handleClickOutside = (e: any) => {
         if (this.optionRef.current && !this.optionRef.current.contains(e.target)) {
-            this.setState({ showOption: false });
+            this.setState({ showOption: false, searchValue:"" });
         }
     }
     componentDidMount() {
@@ -88,28 +88,45 @@ class MultiSelect extends React.Component<IProps, IState> {
           if(!hasOne){
               displayList.push(data)
           }
-        this.setState({ value: data.id.toString(), displayValue: displayList, showOption: false, showInput: false, })
+        this.setState({ value: data.id.toString(), displayValue: displayList })
     }
 
     onChangeHandler = (event: any) => {
         event.preventDefault();
         this.setState({ searchValue: event.target.value })
     }
+    unselectItem = (item: any) => {
+        const selectedList = this.state.displayValue;
+        const newSelectedList =selectedList.filter(selected => selected.id !== item.id)
+        this.setState({displayValue: newSelectedList})
+    }
     render() { 
+        let  datas= this.state.fakeData ? this.state.fakeData : [];
+        if(this.state.searchValue !=="" && datas.length > 0) {
+            const matchData = this.state.searchValue.toLocaleLowerCase()
+           datas= this.state.fakeData.filter(data => data.title.toLocaleLowerCase().match(matchData));
+        }
+        console.log("STATE: ", this.state)
         return ( 
             <div className="multiContainer" ref={this.optionRef}>
                 <div className="multiDisplayContainer" onClick={() => this.optionHandler(true)}>
                     {this.state.displayValue.map((item, i) => {
                         return (
-                            <div key={i} className="multiDisplayItem"> {item.title} </div>
+                            <div key={i} className="multiDisplayItem"> 
+                            <div className="multiselectItem"> {item.title} </div>
+                            <div className="multiUnselect" onClick={() => this.unselectItem(item)}>x</div>
+                            </div>
                         )
                     })}
-                    <input ref={this.ref} type="text" className="multiSearchInput" onChange={this.onChangeHandler} value={this.state.searchValue} />
+                    <input
+                    style={{ display: this.state.showInput ? "block" : "none", 
+                    width: this.state.searchValue.length === 0 ? "19px" :  (this.state.searchValue.length * 9)+"px"}}
+                    ref={this.ref} type="text" className="multiSearchInput" onChange={this.onChangeHandler} value={this.state.searchValue} />
                 </div>
-                <div className="multiDataList" ref={this.optionContainer} tabIndex={1}>
-                    {this.state.fakeData.map((data, i) => {
+                <div className={this.state.showOption ? "multiDataList" : "multiDataList optionHide"} ref={this.optionContainer} tabIndex={1}>
+                    {datas.map((data, i) => {
                         return (
-                            <div key={i} id={data.id} tabIndex={i} onKeyDown={this._handleKeyDown} className="selectOption" onClick={() => this.onSelectHandler(data)}>
+                            <div key={i} id={data.id} tabIndex={i} onKeyDown={this._handleKeyDown} className="multiSelectOption" onClick={() => this.onSelectHandler(data)}>
                                 {data.title}
                             </div>
                         )
