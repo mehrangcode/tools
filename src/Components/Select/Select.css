@@ -1,0 +1,46 @@
+.selecContainer {
+    width: 300px;
+    margin: 0 auto;
+    position: relative;
+}
+.displayContainer {
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid purple;
+}
+.inputContainer {
+    width: 19px;
+}
+.selectInput {
+    width: 19px;
+    border: none;
+    margin: 0 5px;
+}
+.selectBtn {
+    width: 25px;
+    border-left: 1px solid purple;
+}
+.optionContainer {
+    position: absolute;
+    width: 100%;
+    border: 1px solid purple;
+    left: 0;
+    top: 100%;
+    box-sizing: border-box;
+    max-height: 210px;
+    overflow-y: auto;
+    transition: all 200ms;
+}
+.selectOption {
+    height: 30px;
+    cursor: pointer;
+    margin-bottom: 5px;
+}
+.selectDisplay {
+    width: 100%;
+    text-align: left;
+}
+.optionHide {
+    max-height: 0px;
+    border: none;
+}
