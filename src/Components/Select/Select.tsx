@@ -14,6 +14,7 @@ export interface IState {
 }
 
 class Select extends React.Component<IProps, IState> {
+    ref: any;
     constructor(props: IProps) {
         super(props);
         this.state = {
@@ -31,9 +32,13 @@ class Select extends React.Component<IProps, IState> {
                 { id: 6, title: "Orange" },
             ]
         };
+        this.ref = React.createRef()
     }
+    
     optionHandler = (status: boolean) => {
-        this.setState({showOption: status, showInput: true, searchValue:""})
+        this.setState({showOption: status, showInput: true, searchValue:""}, () => {
+            this.ref.current &&  this.ref.current.focus()
+        })
     }
 
     onChangeHandler = (event: any) => {
@@ -54,7 +59,7 @@ class Select extends React.Component<IProps, IState> {
             <div className="selecContainer">
                 <div className="displayContainer" onClick={() => this.optionHandler(true)}>
                     <div className="inputContainer">
-                        <input className="selectInput"
+                        <input className="selectInput" ref={this.ref}
                         style={{ display: this.state.showInput ? "block" : "none", 
                             width: this.state.searchValue.length === 0 ? "19px" :  (this.state.searchValue.length * 9)+"px"}}
                          type="text" onChange={(event) => this.onChangeHandler(event)} value={this.state.searchValue} placeholder={this.state.displayValue ==="" ? "Search..." : ""} />

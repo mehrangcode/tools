@@ -7,6 +7,7 @@
     display: flex;
     justify-content: space-between;
     border: 1px solid purple;
+    background-color: white;
 }
 .inputContainer {
     width: 19px;
@@ -42,5 +43,6 @@
 }
 .optionHide {
     max-height: 0px;
-    border: none;
+    top: 90%;
+    z-index: -1;
 }
