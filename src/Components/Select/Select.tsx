@@ -15,6 +15,7 @@ export interface IState {
 
 class Select extends React.Component<IProps, IState> {
     ref: any;
+    optionRef: any;
     constructor(props: IProps) {
         super(props);
         this.state = {
@@ -33,8 +34,24 @@ class Select extends React.Component<IProps, IState> {
             ]
         };
         this.ref = React.createRef()
+        this.optionRef = React.createRef();
+    }
+
+    handleClickOutside = (e: any) => {
+        if (this.optionRef.current && !this.optionRef.current.contains(e.target)) {
+            this.setState({ showOption: false });
+        }
+    }
+    componentDidMount() {
+        document.addEventListener("mousedown", this.handleClickOutside);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener("mousedown", this.handleClickOutside);
     }
     
+
+
     optionHandler = (status: boolean) => {
         this.setState({showOption: status, showInput: true, searchValue:""}, () => {
             this.ref.current &&  this.ref.current.focus()
@@ -56,7 +73,7 @@ class Select extends React.Component<IProps, IState> {
         }
         console.log("STATE: ", this.state)
         return (
-            <div className="selecContainer">
+            <div className="selecContainer" ref={this.optionRef}>
                 <div className="displayContainer" onClick={() => this.optionHandler(true)}>
                     <div className="inputContainer">
                         <input className="selectInput" ref={this.ref}
