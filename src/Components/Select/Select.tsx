@@ -9,6 +9,7 @@ export interface IState {
     searchValue: string;
     value: string;
     showOption: boolean;
+    showInput: boolean;
     fakeData: any[];
 }
 
@@ -20,6 +21,7 @@ class Select extends React.Component<IProps, IState> {
             searchValue: "",
             value: "",
             showOption: false,
+            showInput: true,
             fakeData: [
                 { id: 1, title: "Red" },
                 { id: 2, title: "Green" },
@@ -31,7 +33,7 @@ class Select extends React.Component<IProps, IState> {
         };
     }
     optionHandler = (status: boolean) => {
-        this.setState({showOption: status})
+        this.setState({showOption: status, showInput: true, searchValue:""})
     }
 
     onChangeHandler = (event: any) => {
@@ -39,7 +41,7 @@ class Select extends React.Component<IProps, IState> {
         this.setState({ searchValue: event.target.value, displayValue: "" })
     }
     onSelectHandler = (data: any) => {
-        this.setState({ value: data.id.toString(), displayValue: data.title, showOption: false })
+        this.setState({ value: data.id.toString(), displayValue: data.title, showOption: false, showInput: false, })
     }
     render() {
         let  datas= this.state.fakeData ? this.state.fakeData : [];
@@ -53,7 +55,8 @@ class Select extends React.Component<IProps, IState> {
                 <div className="displayContainer" onClick={() => this.optionHandler(true)}>
                     <div className="inputContainer">
                         <input className="selectInput"
-                        style={{width: this.state.searchValue.length === 0 ? "19px" :  (this.state.searchValue.length * 9)+"px"}}
+                        style={{ display: this.state.showInput ? "block" : "none", 
+                            width: this.state.searchValue.length === 0 ? "19px" :  (this.state.searchValue.length * 9)+"px"}}
                          type="text" onChange={(event) => this.onChangeHandler(event)} value={this.state.searchValue} placeholder={this.state.displayValue ==="" ? "Search..." : ""} />
                     </div>
                     <div className="selectDisplay">
