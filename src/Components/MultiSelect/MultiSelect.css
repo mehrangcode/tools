@@ -47,6 +47,10 @@
     background-color: purple;
     color: white;
 }
+.multiSelectedItem {
+    background-color: #fc9ffc;
+    color: white;
+}
 .optionHide {
     max-height: 0px;
     top: 90%;

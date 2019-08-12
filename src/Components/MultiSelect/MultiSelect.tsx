@@ -125,8 +125,9 @@ class MultiSelect extends React.Component<IProps, IState> {
                 </div>
                 <div className={this.state.showOption ? "multiDataList" : "multiDataList optionHide"} ref={this.optionContainer} tabIndex={1}>
                     {datas.map((data, i) => {
+                        const isSelected = this.state.displayValue.some(selectedItem => selectedItem.id === data.id)
                         return (
-                            <div key={i} id={data.id} tabIndex={i} onKeyDown={this._handleKeyDown} className="multiSelectOption" onClick={() => this.onSelectHandler(data)}>
+                            <div key={i} id={data.id} tabIndex={i} onKeyDown={this._handleKeyDown} className={isSelected ? " multiSelectOption multiSelectedItem" : "multiSelectOption"} onClick={() => this.onSelectHandler(data)}>
                                 {data.title}
                             </div>
                         )
