@@ -42,6 +42,7 @@
     cursor: pointer;
     margin-bottom: 5px;
 }
+.multiOptionActive,
 .multiSelectOption:focus,
 .multiSelectOption:hover {
     background-color: purple;

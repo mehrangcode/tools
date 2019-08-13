@@ -39,6 +39,7 @@
     cursor: pointer;
     margin-bottom: 5px;
 }
+.activeOption,
 .selectOption:focus,
 .selectOption:hover {
     background-color: purple;
@@ -47,6 +48,7 @@
 .selectDisplay {
     width: 100%;
     text-align: left;
+    min-height: 20px;
 }
 .optionHide {
     max-height: 0px;
