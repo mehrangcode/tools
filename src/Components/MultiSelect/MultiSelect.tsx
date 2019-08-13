@@ -104,6 +104,8 @@ class MultiSelect extends React.Component<IProps, IState> {
         this.setState({ value: data.id.toString(), displayValue: displayList })
     }
 
+
+    
     onChangeHandler = (event: any) => {
         event.preventDefault();
         this.setState({ searchValue: event.target.value, activeItem: 0 })
