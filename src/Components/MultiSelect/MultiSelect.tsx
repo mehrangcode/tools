@@ -28,7 +28,7 @@ class MultiSelect extends React.Component<IProps, IState> {
             value: "",
             showOption: false,
             showInput: true,
-            activeItem: 0,
+            activeItem: -1,
         };
         this.ref = React.createRef()
         this.optionRef = React.createRef();
@@ -44,7 +44,7 @@ class MultiSelect extends React.Component<IProps, IState> {
         }
     }
     hideOption = () => {
-        this.setState({ showOption: false, searchValue:"", activeItem:0 });
+        this.setState({ showOption: false, searchValue:"", activeItem: -1 });
     }
 
     handleClickOutside = (e: any) => {
@@ -61,7 +61,7 @@ class MultiSelect extends React.Component<IProps, IState> {
         document.removeEventListener("mousedown", this.handleClickOutside);
     }
     _handleKeyDown = (e:any) =>{
-        if (e.key === 'Enter') {
+        if (e.key === 'Enter' && this.state.activeItem >= 0) {
             if(this.props.optionList){
                 const matchData = this.state.searchValue.toLocaleLowerCase().trim()
                const datas= this.props.optionList.filter(data => data.title.toLocaleLowerCase().trim().match(matchData));
