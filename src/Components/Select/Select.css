@@ -1,0 +1,57 @@
+.selecContainer {
+    margin: 0 auto;
+    position: relative;
+}
+.displayContainer {
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid purple;
+    background-color: white;
+}
+.inputContainer {
+    width: 19px;
+}
+.selectInput {
+    width: 19px;
+    border: none;
+    margin: 0 5px;
+}
+.selectBtn {
+    width: 25px;
+    border-left: 1px solid purple;
+    cursor: pointer;
+    font-size: 10px;
+}
+.optionContainer {
+    position: absolute;
+    width: 100%;
+    border: 1px solid purple;
+    left: 0;
+    top: 100%;
+    box-sizing: border-box;
+    max-height: 210px;
+    overflow-y: auto;
+    transition: all 200ms;
+    background-color: white;
+}
+.selectOption {
+    height: 30px;
+    cursor: pointer;
+    margin-bottom: 5px;
+}
+.activeOption,
+.selectOption:focus,
+.selectOption:hover {
+    background-color: purple;
+    color: white;
+}
+.selectDisplay {
+    width: 100%;
+    text-align: left;
+    min-height: 20px;
+}
+.optionHide {
+    max-height: 0px;
+    top: 90%;
+    z-index: -1;
+}
