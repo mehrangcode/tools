@@ -84,8 +84,17 @@ class Select extends React.Component<IProps, IState> {
         const displayProp = this.props.displayProp ? this.props.displayProp : "title"
         const valueProp = this.props.valueProp ? this.props.valueProp : "id"
         if(this.props.initialValue !== undefined){
-            const displayValue = this.state.optionList.length > 0 && this.state.optionList.filter(item=>this.props.initialValue && item[valueProp].toString() === this.props.initialValue.toString())[0][displayProp];
-            this.setState({value: this.props.initialValue.toString(), displayValue})
+            const displayValueItem: false | any[] = this.state.optionList.length > 0 && this.state.optionList.filter(item=>this.props.initialValue && item[valueProp].toString() === this.props.initialValue.toString());
+            console.log("displayValueItem: ", displayValueItem)
+            if(displayValueItem && displayValueItem.length > 0){
+                
+                const displayValue = displayValueItem[0][displayProp]
+                this.setState({value: this.props.initialValue.toString(), displayValue},()=>{
+                    if(this.props.onChange){
+                        this.props.onChange(this.state.value)
+                    }
+                })
+            }
 
         }
     }
@@ -134,7 +143,16 @@ class Select extends React.Component<IProps, IState> {
     onSelectHandler = (data: any) => {
         const displayProp = this.props.displayProp ? this.props.displayProp : "title"
         const valueProp = this.props.valueProp ? this.props.valueProp : "id"
-        this.setState({ value: data[valueProp].toString(), displayValue: data[displayProp], showOption: false, showInput: false, activeItem:0 })
+        this.setState({ 
+            value: data[valueProp].toString(), 
+            displayValue: data[displayProp], 
+            showOption: false, 
+            showInput: false, 
+            activeItem:0 },()=>{
+                if(this.props.onChange){
+                    this.props.onChange(this.state.value)
+                }
+            })
     }
 
     moveFocus = () => {

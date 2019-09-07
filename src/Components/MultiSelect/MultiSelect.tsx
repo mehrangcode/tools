@@ -73,25 +73,22 @@ class MultiSelect extends React.Component<IProps, IState> {
         }
     }
     setInitialValue() {
-        const displayProp = this.props.displayProp ? this.props.displayProp : "title"
         const valueProp = this.props.valueProp ? this.props.valueProp : "id"; 
         const items: any[] = [];
         let displayValue: any[] = [];
         if (this.props.initialValue !== undefined) {
             this.props.initialValue.forEach((item: any) => {
                 if(this.state.optionList.length > 0){
-                    items.push(this.state.optionList.filter(
+                    const valueItem = this.state.optionList.filter(
                         x => this.props.initialValue && x[valueProp].toString() ===
-                        item.toString())[0][valueProp])
-                
-                displayValue.push(this.state.optionList.filter(
-                    x => this.props.initialValue && x[valueProp].toString() ===
-                    item.toString())[0]);
+                        item.toString())
+                        if(valueItem && valueItem.length > 0){
+                            items.push(valueItem[0][valueProp])
+                            displayValue.push(valueItem[0]);
+                        }
                 }
             });
-
-            console.log("INI: ", items, displayValue)
-            // this.setState({ value: items, displayValue })
+            this.setState({ value: items, displayValue })
 
         }
     }
@@ -156,7 +153,11 @@ class MultiSelect extends React.Component<IProps, IState> {
             values.push(data[valueProp].toString())
         }
         this.ref.current && this.ref.current.focus()
-        this.setState({ value: values, displayValue: displayList })
+        this.setState({ value: values, displayValue: displayList }, () => {
+            if(this.props.onChange){
+                this.props.onChange(this.state.value)
+            }
+        })
     }
 
 
@@ -170,7 +171,11 @@ class MultiSelect extends React.Component<IProps, IState> {
         const selectedList = this.state.displayValue;
         const newSelectedList = selectedList.filter(selected => selected[valueProp].toString() !== item[valueProp].toString())
         const newValues = this.state.value.filter(selected => selected !== item[valueProp].toString())
-        this.setState({value: newValues, displayValue: newSelectedList })
+        this.setState({value: newValues, displayValue: newSelectedList }, () => {
+            if(this.props.onChange){
+                this.props.onChange(this.state.value)
+            }
+        })
     }
     render() {
         console.log("STATE: ", this.state)
