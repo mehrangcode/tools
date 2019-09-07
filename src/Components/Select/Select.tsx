@@ -7,6 +7,7 @@ onChange?: any;
 displayProp?: string;
 valueProp?: string;
 authorization?:string;
+initialValue?:number | string;
 }
 
 export interface IState {
@@ -52,7 +53,9 @@ class Select extends React.Component<IProps, IState> {
             },
         })
         .then(response => response.json())
-        .then(json => this.setState({optionList: json}))
+        .then(json => this.setState({optionList: json}, () => {
+            this.setInitialValue()
+        }))
     }
     
     componentWillReceiveProps(nextProps:any){
@@ -77,13 +80,24 @@ class Select extends React.Component<IProps, IState> {
             this.hideOption()
         }
     }
+    setInitialValue(){
+        const displayProp = this.props.displayProp ? this.props.displayProp : "title"
+        const valueProp = this.props.valueProp ? this.props.valueProp : "id"
+        if(this.props.initialValue !== undefined){
+            const displayValue = this.state.optionList.length > 0 && this.state.optionList.filter(item=>this.props.initialValue && item[valueProp].toString() === this.props.initialValue.toString())[0][displayProp];
+            this.setState({value: this.props.initialValue.toString(), displayValue})
+
+        }
+    }
     componentDidMount() {
-        
         if(this.props.url){
             this.getOptions(this.props.url)
         } else if(this.props.optionList) {
-            this.setState({optionList: this.props.optionList})
+            this.setState({optionList: this.props.optionList}, ()=> {
+                this.setInitialValue();
+            })
         }
+        
         document.addEventListener("mousedown", this.handleClickOutside);
         this.moveFocus()
     }

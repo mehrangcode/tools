@@ -16,7 +16,10 @@ const App: React.FC = () => {
   return (
     <div className="App">
       <div style={{ width: "300px", margin: "0 auto" }}>
-        <Select url="http://37.156.20.117:8585/api/web/v1/Project" onChange={(value: string) => console.log("VALUE: ", value)} optionList= {fakeData} />
+        <Select 
+        url="http://37.156.20.117:8585/api/web/v1/Project" 
+        initialValue="58"
+        onChange={(value: string) => console.log("VALUE: ", value)} optionList= {fakeData} />
 
         <div style={{ height: "200px" }}>&nbsp;</div>
 
