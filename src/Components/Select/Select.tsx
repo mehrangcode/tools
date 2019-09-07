@@ -160,7 +160,6 @@ class Select extends React.Component<IProps, IState> {
             const matchData = this.state.searchValue.toLocaleLowerCase().trim()
            datas= datas.filter(data => data[displayProp].toLocaleLowerCase().trim().match(matchData));
         }
-        console.log("STATE: ", this.state)
         return (
             <div className="selecContainer" ref={this.optionRef}>
                 <div className="displayContainer" onClick={() => this.optionHandler(true)}>

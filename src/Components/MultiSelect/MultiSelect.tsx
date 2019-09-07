@@ -7,13 +7,14 @@ export interface IProps {
     onChange?: any;
     displayProp?: string;
     valueProp?: string;
+    initialValue?: Array<number | string>;
     authorization?: string;
 }
 
 export interface IState {
     displayValue: any[];
     searchValue: string;
-    value: string;
+    value: any[];
     showOption: boolean;
     showInput: boolean;
     activeItem: number;
@@ -29,7 +30,7 @@ class MultiSelect extends React.Component<IProps, IState> {
         this.state = {
             displayValue: [],
             searchValue: "",
-            value: "",
+            value: [],
             showOption: false,
             showInput: true,
             activeItem: -1,
@@ -53,7 +54,9 @@ class MultiSelect extends React.Component<IProps, IState> {
             },
         })
             .then(response => response.json())
-            .then(json => this.setState({ optionList: json }))
+            .then(json => this.setState({ optionList: json }, () => {
+                this.setInitialValue();
+            }))
     }
     componentWillReceiveProps(nextProps: any) {
         if (this.state.optionList.length === 0 && nextProps.url) {
@@ -69,11 +72,36 @@ class MultiSelect extends React.Component<IProps, IState> {
             this.hideOption()
         }
     }
+    setInitialValue() {
+        const displayProp = this.props.displayProp ? this.props.displayProp : "title"
+        const valueProp = this.props.valueProp ? this.props.valueProp : "id"; 
+        const items: any[] = [];
+        let displayValue: any[] = [];
+        if (this.props.initialValue !== undefined) {
+            this.props.initialValue.forEach((item: any) => {
+                if(this.state.optionList.length > 0){
+                    items.push(this.state.optionList.filter(
+                        x => this.props.initialValue && x[valueProp].toString() ===
+                        item.toString())[0][valueProp])
+                
+                displayValue.push(this.state.optionList.filter(
+                    x => this.props.initialValue && x[valueProp].toString() ===
+                    item.toString())[0]);
+                }
+            });
+
+            console.log("INI: ", items, displayValue)
+            // this.setState({ value: items, displayValue })
+
+        }
+    }
     componentDidMount() {
         if (this.props.url) {
             this.getOptions(this.props.url)
         } else if (this.props.optionList) {
-            this.setState({ optionList: this.props.optionList })
+            this.setState({ optionList: this.props.optionList }, () => {
+                this.setInitialValue();
+            })
         }
         document.addEventListener("mousedown", this.handleClickOutside);
         this.moveFocus()
@@ -121,12 +149,14 @@ class MultiSelect extends React.Component<IProps, IState> {
     onSelectHandler = (data: any) => {
         const valueProp = this.props.valueProp ? this.props.valueProp : "id";
         const displayList = this.state.displayValue;
+        const values = this.state.value;
         const hasOne = this.state.displayValue.some(item => item[valueProp].toString() === data[valueProp].toString());
         if (!hasOne) {
-            displayList.push(data)
+            displayList.push(data);
+            values.push(data[valueProp].toString())
         }
         this.ref.current && this.ref.current.focus()
-        this.setState({ value: data[valueProp].toString(), displayValue: displayList })
+        this.setState({ value: values, displayValue: displayList })
     }
 
 
@@ -139,9 +169,11 @@ class MultiSelect extends React.Component<IProps, IState> {
         const valueProp = this.props.valueProp ? this.props.valueProp : "id";
         const selectedList = this.state.displayValue;
         const newSelectedList = selectedList.filter(selected => selected[valueProp].toString() !== item[valueProp].toString())
-        this.setState({ displayValue: newSelectedList })
+        const newValues = this.state.value.filter(selected => selected !== item[valueProp].toString())
+        this.setState({value: newValues, displayValue: newSelectedList })
     }
     render() {
+        console.log("STATE: ", this.state)
         const displayProp = this.props.displayProp ? this.props.displayProp : "title";
         const valueProp = this.props.valueProp ? this.props.valueProp : "id";
         let datas = this.state.optionList ? this.state.optionList : [];
@@ -152,7 +184,7 @@ class MultiSelect extends React.Component<IProps, IState> {
         return (
             <div className="multiContainer" ref={this.optionRef}>
                 <div className="multiDisplayContainer" onClick={() => this.optionHandler(true)}>
-                    {this.state.displayValue.map((item, i) => {
+                    {this.state.displayValue.length > 0 && this.state.displayValue.map((item, i) => {
                         return (
                             <div key={i} className="multiDisplayItem">
                                 <div className="multiselectItem"> {item[displayProp]} </div>

@@ -23,7 +23,10 @@ const App: React.FC = () => {
 
         <div style={{ height: "200px" }}>&nbsp;</div>
 
-        <MultiSelect url="http://37.156.20.117:8585/api/web/v1/Project" />
+        <MultiSelect 
+        initialValue={["58", "55"]}
+        url="http://37.156.20.117:8585/api/web/v1/Project"
+         />
       </div>
     </div>
   );
