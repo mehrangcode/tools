@@ -75,15 +75,9 @@ class Select extends React.Component<IProps, IState> {
             }))
     }
 
-    // componentWillReceiveProps(nextProps: any) {
-    //     if (this.state.optionList.length === 0 && nextProps.url !== "") {
-    //         this.getOptions(nextProps.url)
-    //     }
-    // }
-
     hideOption = () => {
-        const displayProp = this.props.displayProp ? this.props.displayProp : "title"
-        const valueProp = this.props.valueProp ? this.props.valueProp : "id"
+        const displayProp = this.props.displayProp ? this.props.displayProp : "title";
+        const valueProp = this.props.valueProp ? this.props.valueProp : "id";
         let { displayValue, showInput } = this.state
         if (this.state.value !== "" && this.state.optionList) {
             const displayValueItem = this.state.optionList &&  this.state.optionList.filter(item => item[valueProp].toString() === this.state.value)[0];
@@ -99,8 +93,8 @@ class Select extends React.Component<IProps, IState> {
         }
     }
     setInitialValue() {
-        const displayProp = this.props.displayProp ? this.props.displayProp : "title"
-        const valueProp = this.props.valueProp ? this.props.valueProp : "id"
+        const displayProp = this.props.displayProp ? this.props.displayProp : "title";
+        const valueProp = this.props.valueProp ? this.props.valueProp : "id";
         if (this.props.initialValue !== undefined) {
             const displayValueItem: false | any[] = this.state.optionList.length > 0 && this.state.optionList.filter(item => this.props.initialValue && item.props[valueProp].toString() === this.props.initialValue.toString());
             if (displayValueItem && displayValueItem.length > 0) {
@@ -152,8 +146,8 @@ class Select extends React.Component<IProps, IState> {
     _handleKeyDown = (e: any) => {
         if (e.key === 'Enter') {
             if (this.state.optionList) {
-                const displayProp = this.props.displayProp ? this.props.displayProp : "title"
-                const valueProp = this.props.valueProp ? this.props.valueProp : "id"
+                const displayProp = this.props.displayProp ? this.props.displayProp : "title";
+                const valueProp = this.props.valueProp ? this.props.valueProp : "id";
                 const matchData = this.state.searchValue.toLocaleLowerCase().trim()
                 const datas = this.state.optionList.filter(data => data[displayProp].toLocaleLowerCase().trim().match(matchData));
                 const id = datas[this.state.activeItem][valueProp];
@@ -163,8 +157,8 @@ class Select extends React.Component<IProps, IState> {
         }
     }
     onSelectHandler = (data: any) => {
-        const displayProp = this.props.displayProp ? this.props.displayProp : "title"
-        const valueProp = this.props.valueProp ? this.props.valueProp : "id"
+        const displayProp = this.props.displayProp ? this.props.displayProp : "title";
+        const valueProp = this.props.valueProp ? this.props.valueProp : "id";
         this.setState({
             value: data.props ? data.props[valueProp].toString() : data[valueProp],
             displayValue: data.props ? data.props[displayProp] : data[displayProp],
@@ -179,10 +173,8 @@ class Select extends React.Component<IProps, IState> {
     }
 
     moveFocus = () => {
-        const displayProp = this.props.displayProp ? this.props.displayProp : "title"
-        const valueProp = this.props.valueProp ? this.props.valueProp : "id"
+        const displayProp = this.props.displayProp ? this.props.displayProp : "title";
         const node = this.ref.current;
-        // const items: any[] = this.state.optionList ? this.state.optionList : []
         node.addEventListener('keydown', (e: any) => {
             const matchData = this.state.searchValue.toLocaleLowerCase().trim()
             const items: any[] = this.state.optionList ? 
@@ -207,7 +199,6 @@ class Select extends React.Component<IProps, IState> {
         const displayProp = this.props.displayProp ? this.props.displayProp : "title";
         const valueProp = this.props.valueProp ? this.props.valueProp : "id";
         let options: any[] = [];
-        // let optionElement: any= null;
         if (this.props.url || this.props.optionList ) {
             options = [];
             this.state.optionList.forEach((option: any, i: number) => {
@@ -222,7 +213,6 @@ class Select extends React.Component<IProps, IState> {
         React.Children.forEach(this.props.children, (x, i) => {
             let y = x as React.ReactElement;
             if (y.type === Option) {
-                // convert option
                 const optionElement = (z: number) => (<div key={y.props[valueProp]} id={y.props[valueProp]} className={z === y.props[valueProp] ? "selectOption activeOption" : "selectOption"} onClick={() => this.onSelectHandler(y)}>
                     {y.props[displayProp]}
                 </div>)
@@ -230,7 +220,6 @@ class Select extends React.Component<IProps, IState> {
 
             }
             if ((x as any).type === COption) {
-                // convert option
             }
         });
         this.setState({ optionList: options })
@@ -238,7 +227,6 @@ class Select extends React.Component<IProps, IState> {
     }
 
     private renderOptionList = (options: any) => {
-        console.log("renderOptionList", this.state.activeItem)
         const displayProp = this.props.displayProp ? this.props.displayProp : "title";
         const valueProp = this.props.valueProp ? this.props.valueProp : "id";
         if (this.state.searchValue !== "" && options.length > 0) {
@@ -274,13 +262,6 @@ class Select extends React.Component<IProps, IState> {
                 </div>
                 <div ref={this.optionContainer} tabIndex={-1} className={this.state.showOption ? "optionContainer" : "optionContainer optionHide"}>
                     {this.renderOptionList(this.state.optionList)}
-                    {/* {datas.map((data, i) => {
-                        return (
-                            <div key={i} id={data[valueProp]} className={this.state.activeItem === i ? "selectOption activeOption" : "selectOption"} onClick={() => this.onSelectHandler(data)}>
-                                {data[displayProp]}
-                            </div>
-                        )
-                    })} */}
                 </div>
             </div>
         );

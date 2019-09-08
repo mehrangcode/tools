@@ -58,11 +58,11 @@ class MultiSelect extends React.Component<IProps, IState> {
                 this.setInitialValue();
             }))
     }
-    componentWillReceiveProps(nextProps: any) {
-        if (this.state.optionList.length === 0 && nextProps.url) {
-            this.getOptions(nextProps.url)
-        }
-    }
+    // componentWillReceiveProps(nextProps: any) {
+    //     if (this.state.optionList.length === 0 && nextProps.url) {
+    //         this.getOptions(nextProps.url)
+    //     }
+    // }
     hideOption = () => {
         this.setState({ showOption: false, searchValue: "", activeItem: -1 });
     }
@@ -178,7 +178,6 @@ class MultiSelect extends React.Component<IProps, IState> {
         })
     }
     render() {
-        console.log("STATE: ", this.state)
         const displayProp = this.props.displayProp ? this.props.displayProp : "title";
         const valueProp = this.props.valueProp ? this.props.valueProp : "id";
         let datas = this.state.optionList ? this.state.optionList : [];
