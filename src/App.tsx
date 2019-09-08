@@ -16,17 +16,26 @@ const App: React.FC = () => {
   return (
     <div className="App">
       <div style={{ width: "300px", margin: "0 auto" }}>
-        <Select 
-        url="http://37.156.20.117:8585/api/web/v1/Project" 
-        initialValue="58"
-        onChange={(value: string) => console.log("VALUE: ", value)} optionList= {fakeData} />
+        <Select
+          // url="http://37.156.20.117:8585/api/web/v1/Project"
+          // initialValue="58"
+          onChange={(value: string) => console.log("VALUE: ", value)} 
+          valueProp="id"
+          displayProp="title"
+          optionList={fakeData}
+           >
+          <Select.Option text="asdasd2" value="optionValue1" />
+          <Select.Option text="asdasd23" value="optionValue2" />
+          <Select.Option text="asdasd3" value="optionValue3" />
+          
+        </Select>
 
         <div style={{ height: "200px" }}>&nbsp;</div>
 
-        <MultiSelect 
-        initialValue={["58", "55"]}
-        url="http://37.156.20.117:8585/api/web/v1/Project"
-         />
+        <MultiSelect
+          initialValue={["58", "55"]}
+          url="http://37.156.20.117:8585/api/web/v1/Project"
+        />
       </div>
     </div>
   );
