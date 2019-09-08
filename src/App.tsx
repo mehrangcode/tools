@@ -19,15 +19,22 @@ const App: React.FC = () => {
         <Select
           // url="http://37.156.20.117:8585/api/web/v1/Project"
           // initialValue="58"
-          onChange={(value: string) => console.log("VALUE: ", value)} 
-          valueProp="id"
-          displayProp="title"
-          optionList={fakeData}
-           >
+          onChange={(value: string) => console.log("VALUE: ", value)}
+          valueProp="value"
+          displayProp="text"
+        // optionList={fakeData}
+        >
           <Select.Option text="asdasd2" value="optionValue1" />
           <Select.Option text="asdasd23" value="optionValue2" />
           <Select.Option text="asdasd3" value="optionValue3" />
-          
+          <Select.COption text="select1" value="customSelet1">
+            {
+              (item: any) => <p style={{ backgroundColor: "red", color: "white", border: "2px solid" }}>Custom ui {item.text} </p>
+            }
+          </Select.COption>
+          <Select.COption text="select2" value="customSelet1233">
+            <p style={{ backgroundColor: "red", color: "white", border: "2px solid" }}>Custom ui2</p>
+          </Select.COption>
         </Select>
 
         <div style={{ height: "200px" }}>&nbsp;</div>

@@ -80,7 +80,7 @@ class Select extends React.Component<IProps, IState> {
         const valueProp = this.props.valueProp ? this.props.valueProp : "id";
         let { displayValue, showInput } = this.state
         if (this.state.value !== "" && this.state.optionList) {
-            const displayValueItem = this.state.optionList &&  this.state.optionList.filter(item => item[valueProp].toString() === this.state.value)[0];
+            const displayValueItem = this.state.optionList && this.state.optionList.filter(item => item[valueProp].toString() === this.state.value)[0];
             displayValue = displayValueItem ? displayValueItem[displayProp] : ""
         }
         showInput = false;
@@ -118,7 +118,7 @@ class Select extends React.Component<IProps, IState> {
                 this.getChildren();
                 this.moveFocus()
             })
-        }else {
+        } else {
             this.getChildren();
             this.moveFocus()
         }
@@ -177,9 +177,9 @@ class Select extends React.Component<IProps, IState> {
         const node = this.ref.current;
         node.addEventListener('keydown', (e: any) => {
             const matchData = this.state.searchValue.toLocaleLowerCase().trim()
-            const items: any[] = this.state.optionList ? 
-            this.state.optionList.filter(data => data[displayProp].toLocaleLowerCase().trim().match(matchData)) : [];
-            console.log("matchData: ", "M"+matchData, items.length)
+            const items: any[] = this.state.optionList ?
+                this.state.optionList.filter(data => data[displayProp].toLocaleLowerCase().trim().match(matchData)) : [];
+            console.log("matchData: ", "M" + matchData, items.length)
             let activeIndex = this.state.activeItem
             if (e.keyCode === 40 && activeIndex < (items.length - 1)) {
                 activeIndex++
@@ -189,7 +189,7 @@ class Select extends React.Component<IProps, IState> {
             }
             this.setState({ activeItem: activeIndex }, () => {
                 console.log("activeIndex: ", activeIndex, "this.state.activeItem: ", this.state.activeItem)
-                
+
             })
         });
     }
@@ -199,10 +199,10 @@ class Select extends React.Component<IProps, IState> {
         const displayProp = this.props.displayProp ? this.props.displayProp : "title";
         const valueProp = this.props.valueProp ? this.props.valueProp : "id";
         let options: any[] = [];
-        if (this.props.url || this.props.optionList ) {
+        if (this.props.url || this.props.optionList) {
             options = [];
             this.state.optionList.forEach((option: any, i: number) => {
-            const optionElement = (z: number) => (<div key={i} id={option[valueProp]} className={z === option[valueProp] ? "selectOption activeOption" : "selectOption"} onClick={() => this.onSelectHandler(option)}>
+                const optionElement = (z: number) => (<div key={i} id={option[valueProp]} className={z === option[valueProp] ? "selectOption activeOption" : "selectOption"} onClick={() => this.onSelectHandler(option)}>
                     {option[displayProp]}
                 </div>)
                 options.push({ [valueProp]: option[valueProp], [displayProp]: option[displayProp], optionElement })
@@ -219,7 +219,12 @@ class Select extends React.Component<IProps, IState> {
                 options.push({ [valueProp]: y.props[valueProp], [displayProp]: y.props[displayProp], optionElement })
 
             }
-            if ((x as any).type === COption) {
+            if (y.type === COption) {
+                console.log()
+                const optionElement = (z: number) => (<div key={y.props[valueProp]} id={y.props[valueProp]} className={z === y.props[valueProp] ? "selectOption activeOption" : "selectOption"} onClick={() => this.onSelectHandler(y)}>
+                    {typeof y.props.children === "function" ? y.props.children(y.props) : y.props.children}
+                </div>)
+                options.push({ [valueProp]: y.props[valueProp], [displayProp]: y.props[displayProp], optionElement })
             }
         });
         this.setState({ optionList: options })
