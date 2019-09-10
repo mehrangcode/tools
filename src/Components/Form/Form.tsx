@@ -18,9 +18,10 @@ class Form extends React.Component<IProps, IState> {
 
     private getChildren = () => {
         React.Children.map(this.props.children, (x,i) => {
-            let y = x as React.ReactNode;
-
-            console.log(y)
+            let y = x as React.ReactElement;
+            if (y.type === Item) {
+                console.log( y.props.name, y.props.rules)
+             }
         })
     }
     componentDidMount() {
@@ -28,7 +29,7 @@ class Form extends React.Component<IProps, IState> {
     }
     onChangeHandler = (e: any) => {
         e.preventDefault();
-        console.log(e.target.name, e.target.value)
+        console.log(e.target.name)
     }
     submitHandler = () => {
         console.log("submitHandler: ", this.state)
