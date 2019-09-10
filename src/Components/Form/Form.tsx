@@ -18,18 +18,12 @@ class Form extends React.Component<IProps, IState> {
 
     private getChildren = () => {
         React.Children.map(this.props.children, (x,i) => {
-            let y = x as React.ReactElement;
-            if (y.type === Item) {
-                console.log( y.props.name, y.props.rules)
-             }
+            // let y = x as React.ReactElement;
+            
         })
     }
     componentDidMount() {
         this.getChildren()
-    }
-    onChangeHandler = (e: any) => {
-        e.preventDefault();
-        console.log(e.target.name)
     }
     submitHandler = () => {
         console.log("submitHandler: ", this.state)

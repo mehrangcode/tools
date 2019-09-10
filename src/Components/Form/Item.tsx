@@ -1,8 +1,6 @@
 import * as React from 'react';
 
 export interface IProps {
-    value?: string | boolean | number;
-    name: string;
     rules: any;
 }
  
@@ -15,13 +13,13 @@ class Item extends React.Component<IProps, IState> {
         super(props);
         this.state = {   };
     }
-
+    onChangeHandler = (e:any) =>{
+        this.setState({val: e.target.value})
+    }
     componentDidMount(){
         React.Children.map(this.props.children, x => {
             let child = x as any
-            if(child.props.value){
-                console.log("Item:: ", child.props.value)
-            }
+                console.log("Item:: ", child.props)
         })
     }
     render() {

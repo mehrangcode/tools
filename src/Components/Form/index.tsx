@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Form from './Form';
+import Input from './Input';
 export interface IProps {
 
 }
@@ -21,12 +22,11 @@ class FormTest extends React.Component<IProps, IState> {
                 <Form>
 
                     <Form.Item
-                        name="username"
                         rules={{
                             required: true
                         }}
                     >
-                        <input type="text" name="username" id="username" value="Input value"/>
+                        <Input name="username" />
                     </Form.Item>
 
                 </Form>
