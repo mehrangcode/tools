@@ -16,8 +16,15 @@ class Form extends React.Component<IProps, IState> {
         this.state = {   };
     }
 
+    private getChildren = () => {
+        React.Children.map(this.props.children, (x,i) => {
+            let y = x as React.ReactNode;
+
+            console.log(y)
+        })
+    }
     componentDidMount() {
-        
+        this.getChildren()
     }
     onChangeHandler = (e: any) => {
         e.preventDefault();
