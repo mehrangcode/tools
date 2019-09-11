@@ -9,6 +9,11 @@ export interface IState {
     [key: string]: any;
 }
  
+export const fildeWrapper = (props: Object) => (ChildComponnent: any) => {
+    console.log("Wrapper => ", props, ChildComponnent)
+    return  <ChildComponnent  />
+          
+}
 class Form extends React.Component<IProps, IState> {
     public static Item: typeof Item = Item;
     constructor(props: IProps) {
@@ -18,7 +23,7 @@ class Form extends React.Component<IProps, IState> {
 
     private getChildren = () => {
         React.Children.map(this.props.children, (x,i) => {
-            // let y = x as React.ReactElement;
+            console.log(x)
             
         })
     }

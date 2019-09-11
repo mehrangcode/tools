@@ -16,7 +16,7 @@ class Input extends React.Component<IProps> {
     }
 
     render() {
-        return <input type="text" name={this.props.name} onChange={this.onChangeHandler} id={this.props.id} value={this.state.val}  />
+        return <input type="text" name={this.props.name} onChange={this.onChangeHandler} id={this.props.name} value={this.state.val}  />
     }
 }
 

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Form from './Form';
+import {fildeWrapper} from './Form';
 import Input from './Input';
 export interface IProps {
 
@@ -8,12 +9,12 @@ export interface IProps {
 export interface IState {
 
 }
-
 class FormTest extends React.Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
         this.state = {};
     }
+    
     render() {
         return (
             <div>
@@ -22,11 +23,15 @@ class FormTest extends React.Component<IProps, IState> {
                 <Form>
 
                     <Form.Item
+                        label = "User Name"
                         rules={{
                             required: true
                         }}
                     >
-                        <Input name="username" />
+                        {fildeWrapper("num")(
+                            <Input name="username" />
+                        )}
+                        
                     </Form.Item>
 
                 </Form>
