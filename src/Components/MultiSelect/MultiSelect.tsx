@@ -58,11 +58,7 @@ class MultiSelect extends React.Component<IProps, IState> {
                 this.setInitialValue();
             }))
     }
-    // componentWillReceiveProps(nextProps: any) {
-    //     if (this.state.optionList.length === 0 && nextProps.url) {
-    //         this.getOptions(nextProps.url)
-    //     }
-    // }
+    
     hideOption = () => {
         this.setState({ showOption: false, searchValue: "", activeItem: -1 });
     }
