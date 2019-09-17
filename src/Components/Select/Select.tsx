@@ -210,6 +210,7 @@ class Select extends React.Component<IProps, IState> {
             this.setState({ optionList: options })
             return
         }
+        
         React.Children.forEach(this.props.children, (x, i) => {
             let y = x as React.ReactElement;
             if (y.type === Option) {
