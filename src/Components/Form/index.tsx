@@ -1,43 +1,29 @@
-import * as React from 'react';
-import Form from './Form';
-import {fildeWrapper} from './Form';
-import Input from './Input';
-export interface IProps {
+import React from 'react';
+import Form, { FormItem } from "./Form";
+import './App.css';
 
-}
-
-export interface IState {
-
-}
-class FormTest extends React.Component<IProps, IState> {
-    constructor(props: IProps) {
-        super(props);
-        this.state = {};
-    }
-    
-    render() {
-        return (
-            <div>
-                <p>Form Test</p>
-
-                <Form>
-
-                    <Form.Item
-                        label = "User Name"
-                        rules={{
-                            required: true
-                        }}
-                    >
-                        {fildeWrapper("num")(
-                            <Input name="username" />
-                        )}
-                        
-                    </Form.Item>
-
-                </Form>
-            </div>
-        );
-    }
+const FormTest: React.FC = () => {
+  return (
+    <div className="App">
+      <Form onSubmit={(values: any, err: any) => {
+        console.log("onSubmit", values, err);
+        if (err) {
+          return;
+        }
+        // valid
+      }}>
+        <FormItem label="User Name" 
+        name="username" 
+        rules={[{ required: true, msg: "filed is require" }]} 
+        component={<input id="baghali" type="text" />} />
+        <FormItem name="lastName" 
+        rules={[{ required: true, msg: "lastName is require" }, 
+        { max: 3, msg: "max lenght 3" }]} 
+        component={<input type="text" />} />
+        <button type="submit">Submit</button>
+      </Form>
+    </div>
+  );
 }
 
 export default FormTest;
