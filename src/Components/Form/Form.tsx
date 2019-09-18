@@ -51,7 +51,9 @@ export default class Form extends React.Component<IProps, IState>{
         }
 
         this.setState({data:{...this.state.data,  [name]: value} })
-        this.itemValidation(name, value, rules);
+        if(rules){
+            this.itemValidation(name, value, rules);
+        }
     }
 
     setStateValues = () => {
@@ -61,9 +63,11 @@ export default class Form extends React.Component<IProps, IState>{
 
         React.Children.map(this.props.children, (child: any, index) => {
             if (child.type === FormItem) {
-                data[child.props.name] = ""
+                data[child.props.name] = child.props.initialValue ? child.props.initialValue :  ""
                 err[child.props.name]= {msg: "", isValid: false}
-                rules[child.props.name]= child.props.rules
+                if(child.props.rules){
+                    rules[child.props.name]= child.props.rules
+                }
             }
         });
         this.setState({
@@ -86,7 +90,7 @@ export default class Form extends React.Component<IProps, IState>{
                         }
                         this.childChangeHandler(child.props.name, e, child.props.rules)
                     },
-                    // value: this.state.data && this.state.data[child.props.name] ? this.state.data[child.props.name] : ""
+                    value: this.state.data && this.state.data[child.props.name] ? this.state.data[child.props.name] : ""
                 }, null);
                 return <FromItemWrapper
                     label={child.props.label}
