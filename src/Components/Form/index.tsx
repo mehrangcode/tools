@@ -18,7 +18,7 @@ const FormTest: React.FC = () => {
         <FormItem name="lastName" 
         rules={[{ required: true, msg: "lastName is require" }, 
         { max: 3, msg: "max lenght 3" }]} 
-        component={<input type="text" />} />
+        component={<input type="text" onChange={(e) => console.log("Input Changed", e.target.name)} />} />
         <button type="submit">Submit</button>
       </Form>
     </div>

@@ -73,12 +73,19 @@ export default class Form extends React.Component<IProps, IState>{
         })
     }
     getChild = () => {
-        var items = React.Children.map(this.props.children, (child: any, index) => {
+        var items = React.Children.map(this.props.children, (child: any, index: number) => {
             if (child.type === FormItem) {
                 var comp = child.props.component;
                 const El = React.cloneElement(comp, {
                     id: comp.props.id ? comp.props.id : child.props.name,
-                    onChange: (e: any) => this.childChangeHandler(child.props.name, e, child.props.rules),
+                    name: child.props.name,
+                    onChange: (e: any) => {
+                        if(comp.props.onChange){
+                            console.log("has one", comp.props.onChange)
+                            comp.props.onChange(e)
+                        }
+                        this.childChangeHandler(child.props.name, e, child.props.rules)
+                    },
                     // value: this.state.data && this.state.data[child.props.name] ? this.state.data[child.props.name] : ""
                 }, null);
                 return <FromItemWrapper
