@@ -17,39 +17,31 @@ export default class Form extends React.Component<IProps, IState>{
     itemValidation = (name: string, value: string, rules: any) => {
         let isValid = true;
         let msg = ""
+        const err = this.state.err
         rules.map((rule: any) => {
             if (rule.required && isValid) {
-                console.log("Required", isValid, this.state)
                 isValid = value.trim() !== ""
                 if (!isValid) {
                     msg = rule.msg
                 }
-                this.setState({
-                    err: {
-                        ...this.state.err,
-                        [name]: { msg, isValid }
-                    }
-                })
+                    err [name]= { msg, isValid }
             }
             if (rule.max && isValid) {
-                console.log("Required", isValid, this.state)
                 isValid = value.length <= rule.max
                 if (!isValid) {
                     msg = rule.msg
                 }
-                this.setState({
-                    err: {
-                        ...this.state.err,
-                        [name]: { msg, isValid }
-                    }
-                })
+                err [name]= { msg, isValid }
             }
         })
+        this.setState({ err })
+        return isValid
     }
 
     componentDidMount() {
-        const elements = this.getChild()
-        this.setState({elements})
+        // const elements = this.getChild()
+        // this.setState({elements})
+        this.setStateValues()
     }
 
     private childChangeHandler = (name: string, e: any, rules: any) => {
@@ -62,23 +54,33 @@ export default class Form extends React.Component<IProps, IState>{
         this.itemValidation(name, value, rules);
     }
 
-    getChild = () => {
+    setStateValues = () => {
         let data: any = {}
         let err: any = {}
+        let rules: any = {}
+
+        React.Children.map(this.props.children, (child: any, index) => {
+            if (child.type === FormItem) {
+                data[child.props.name] = ""
+                err[child.props.name]= {msg: "", isValid: false}
+                rules[child.props.name]= child.props.rules
+            }
+        });
+        this.setState({
+            data,
+            err,
+            rules
+        })
+    }
+    getChild = () => {
         var items = React.Children.map(this.props.children, (child: any, index) => {
             if (child.type === FormItem) {
                 var comp = child.props.component;
                 const El = React.cloneElement(comp, {
                     id: comp.props.id ? comp.props.id : child.props.name,
                     onChange: (e: any) => this.childChangeHandler(child.props.name, e, child.props.rules),
-                    value: this.state.data && this.state.data[child.props.name] ? this.state.data[child.props.name] : ""
+                    // value: this.state.data && this.state.data[child.props.name] ? this.state.data[child.props.name] : ""
                 }, null);
-                data[child.props.name] = ""
-                err[child.props.name]= {msg: "", isValid: false}
-                this.setState({
-                    data,
-                    err
-                })
                 return <FromItemWrapper
                     label={child.props.label}
                     id = {comp.props.id ? comp.props.id : child.props.name}
@@ -95,20 +97,31 @@ export default class Form extends React.Component<IProps, IState>{
 
     onFormSubmit = (event: any) => {
         event.preventDefault();
-        const {data, err} = this.state
+        const {data, rules} = this.state
+        let err: any = {}
         let isValid = true;
-        if(err){
-            for(const x in err){
-                isValid = err[x]
+        for(const item in rules){
+            let localValidation = false;
+            if(isValid) {
+                isValid = this.itemValidation(item, this.state.data[item], this.state.rules[item])
             }
+            localValidation = this.itemValidation(item, this.state.data[item], this.state.rules[item])
+            if(!localValidation) {
+                err[item] = this.state.err[item]
+            } 
+            
+        }
+        if(isValid){
+            err = null
         }
         this.props.onSubmit(data, err);
     }
 
     render() {
-        console.log("FORM STATE => ", this.state)
+        const elements = this.getChild();
         return <form onSubmit={this.onFormSubmit}>
-            {this.state.elements && this.state.elements}
+            {/* {this.state.elements && this.state.elements} */}
+            {elements}
         </form>;
     }
 }
