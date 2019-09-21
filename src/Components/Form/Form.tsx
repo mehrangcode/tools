@@ -1,7 +1,8 @@
 import React from 'react';
 
 interface IProps {
-    onSubmit: (values: any, err: any) => void
+    onSubmit: (values: any, err: any) => void;
+    reset?: boolean;
 }
 interface IState {
     [key: string]: any;
@@ -46,6 +47,9 @@ export default class Form extends React.Component<IProps, IState>{
     componentDidUpdate(pervProps: any, pervState: any){
         if(pervProps !== this.props){
             this.setStateValues();
+        }
+        if(!pervProps.reset && this.props.reset){
+            this.setState({data: {}})
         }
     }
 

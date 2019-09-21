@@ -15,21 +15,22 @@ interface IProps {
 }
 interface IState {
   isActive: string;
+  formReset: boolean;
 }
 class FormTest extends React.Component<IProps, IState> {
   constructor(props: IProps){
     super(props)
     this.state = {
-      isActive: ""
+      isActive: "",
+      formReset: false
     }
   }
   render(){
     return (
       <div className="App">
-        <Form onSubmit={(values: any, err: any) => {
-          console.log("onSubmit", values, err);
+        <Form reset={this.state.formReset} onSubmit={(values: any, err: any) => {
           if (err) {
-            console.log("err=>")
+            console.log("err=>", values, err);
             return;
           }
           // valid
@@ -52,7 +53,7 @@ class FormTest extends React.Component<IProps, IState> {
               // url="http://37.156.20.117:8585/api/web/v1/Project" 
               initialValue="4"
               optionList={fakeData}
-              onChange={(value: string)=>this.setState({isActive: value})}
+              onChange={(value: string)=>this.setState({isActive: value, formReset: true})}
             />}
           />
           {this.state.isActive === "2" && <FormItem
