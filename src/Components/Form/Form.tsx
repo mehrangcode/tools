@@ -22,7 +22,7 @@ export default class Form extends React.Component<IProps, IState>{
             if (rule.required && isValid) {
                 isValid = value.trim() !== ""
                 if (!isValid) {
-                    msg = rule.msg
+                    msg = rule.msg;
                 }
                     err [name]= { msg, isValid }
             }
@@ -41,7 +41,12 @@ export default class Form extends React.Component<IProps, IState>{
     componentDidMount() {
         // const elements = this.getChild()
         // this.setState({elements})
-        this.setStateValues()
+        this.setStateValues();
+    }
+    componentDidUpdate(pervProps: any, pervState: any){
+        if(pervProps !== this.props){
+            this.setStateValues();
+        }
     }
 
     private childChangeHandler = (name: string, e: any, rules: any) => {
@@ -62,7 +67,7 @@ export default class Form extends React.Component<IProps, IState>{
         let rules: any = {}
 
         React.Children.map(this.props.children, (child: any, index) => {
-            if (child.type === FormItem) {
+            if (child && child.type === FormItem) {
                 data[child.props.name] = child.props.initialValue ? child.props.initialValue :  ""
                 err[child.props.name]= {msg: "", isValid: false}
                 if(child.props.rules){
@@ -78,14 +83,13 @@ export default class Form extends React.Component<IProps, IState>{
     }
     getChild = () => {
         var items = React.Children.map(this.props.children, (child: any, index: number) => {
-            if (child.type === FormItem) {
+            if (child && child.type === FormItem) {
                 var comp = child.props.component;
                 const El = React.cloneElement(comp, {
                     id: comp.props.id ? comp.props.id : child.props.name,
                     name: child.props.name,
                     onChange: (e: any) => {
                         if(comp.props.onChange){
-                            console.log("has one", comp.props.onChange)
                             comp.props.onChange(e)
                         }
                         this.childChangeHandler(child.props.name, e, child.props.rules)
@@ -99,7 +103,7 @@ export default class Form extends React.Component<IProps, IState>{
                     itemElement={El}
                     err={this.state.err && this.state.err[child.props.name] ? this.state.err[child.props.name].msg : null} />
             }
-            else if (child.type === "button") {
+            else if (child && child.type === "button") {
                 return child
             }
         });

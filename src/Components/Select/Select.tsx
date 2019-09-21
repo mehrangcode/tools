@@ -98,7 +98,7 @@ class Select extends React.Component<IProps, IState> {
         if (this.props.initialValue !== undefined) {
             const displayValueItem: false | any[] = this.state.optionList.length > 0 && 
             this.state.optionList.filter(item => {
-                console.log("initialValue => ", this.props.initialValue, item)
+                // console.log("initialValue => ", this.props.initialValue, item)
                 return this.props.initialValue && 
                 item[valueProp].toString() === this.props.initialValue.toString()
             });
@@ -181,7 +181,6 @@ class Select extends React.Component<IProps, IState> {
             const matchData = this.state.searchValue.toLocaleLowerCase().trim()
             const items: any[] = this.state.optionList ?
                 this.state.optionList.filter(data => data[displayProp].toLocaleLowerCase().trim().match(matchData)) : [];
-            console.log("matchData: ", "M" + matchData, items.length)
             let activeIndex = this.state.activeItem
             if (e.keyCode === 40 && activeIndex < (items.length - 1)) {
                 activeIndex++
@@ -189,10 +188,7 @@ class Select extends React.Component<IProps, IState> {
             if (e.keyCode === 38 && activeIndex > 0) {
                 activeIndex--
             }
-            this.setState({ activeItem: activeIndex }, () => {
-                console.log("activeIndex: ", activeIndex, "this.state.activeItem: ", this.state.activeItem)
-
-            })
+            this.setState({ activeItem: activeIndex })
         });
     }
 
@@ -227,7 +223,6 @@ class Select extends React.Component<IProps, IState> {
 
             }
             if (y.type === COption) {
-                console.log()
                 const optionElement = (z: number) => (<div key={y.props[valueProp]} id={y.props[valueProp]} 
                 className={z === y.props[valueProp] ? "selectOption activeOption" : "selectOption"} 
                 onClick={() => this.onSelectHandler(y)}>
